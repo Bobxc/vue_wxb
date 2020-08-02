@@ -84,27 +84,6 @@ export default {
           _this.$router.push('/home');
         });
       });
-
-      /* let _this = this
-      _this.$refs.loginFormRef.validate(async (valid) => {
-        console.log(valid);
-        if(!valid) return;
-        const {data: res} = await _this.$http.post('login', _this.loginForm);
-        console.log(res);
-        if(res.meta.status !== 200) return _this.$message({
-          message: '登录失败',
-          center: true,
-          type: 'error'
-        })
-        // _this.$message.success('登录成功');
-        _this.$message({
-          message: '登录成功',
-          center: true,
-          type: 'success'
-        })
-        window.sessionStorage.setItem('token', res.data.token);
-        _this.$router.push('/home');
-      }) */
     },
   },
 };
