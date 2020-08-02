@@ -53,3 +53,20 @@ export function deleteRemoveUser(id) {
         method: 'delete'
     })
 }
+
+export function getRightsList(type) {
+    return request({
+        url: `/rights/${type}`,
+        method: 'get',
+        params: {
+            type: type
+        }
+    })
+}
+
+export function getRoles() {
+    return request({
+        url: '/roles',
+        method: 'get'
+    })
+}
