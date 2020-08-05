@@ -70,3 +70,31 @@ export function getRoles() {
         method: 'get'
     })
 }
+//删除角色指定权限
+export function deleteRoleRight(roleId, rightId) {
+    return request({
+        url: `roles/${roleId}/rights/${rightId}`,
+        method: 'delete'
+    })
+}
+//获取权限数据
+export function getRightsTree(type) {
+    return request({
+        url: `rights/${type}`,
+        method: 'get',
+        params: {
+            type: type
+        }
+    })
+}
+//为角色分配权限
+export function postAllotRights(roleId, rids) {
+    return request({
+        url: `roles/${roleId}/rights`,
+        method: 'post',
+        data: {
+            roleId: roleId,
+            rids: rids
+        }
+    })
+}
