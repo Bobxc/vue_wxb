@@ -98,3 +98,13 @@ export function postAllotRights(roleId, rids) {
         }
     })
 }
+//分配用户角色
+export function putUserRole(id, rid) {
+    return request({
+        url: `users/${id}/role`,
+        method: 'put',
+        data: {
+            rid: rid
+        }
+    })
+}

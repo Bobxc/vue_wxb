@@ -46,7 +46,12 @@
               @click="removeUser(scope.row.id)"
             ></el-button>
             <el-tooltip effect="dark" content="分配角色" placement="top" :enterable="false">
-              <el-button type="warning" icon="el-icon-setting" size="mini"></el-button>
+              <el-button
+                type="warning"
+                icon="el-icon-setting"
+                size="mini"
+                @click="setRole(scope.row)"
+              ></el-button>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -101,6 +106,34 @@
         <el-button type="primary" @click="editUser">确 定</el-button>
       </span>
     </el-dialog>
+    <!-- 分配角色对话框 -->
+    <el-dialog
+      title="分配角色"
+      :visible.sync="roleDialogVisible"
+      width="50%"
+      @close="setRoleDialogColsed"
+    >
+      <div>
+        <p>用户名：{{userInfo.username}}</p>
+        <p></p>
+        <p>当前角色：{{userInfo.role_name}}</p>
+        <p>
+          分配新角色：
+          <el-select v-model="selectRoleId" placeholder="请选择">
+            <el-option
+              v-for="item in roleList"
+              :key="item.id"
+              :label="item.roleName"
+              :value="item.id"
+            ></el-option>
+          </el-select>
+        </p>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="roleDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="saveRoleInfo">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -111,6 +144,8 @@ import {
   getUser,
   putEditUser,
   deleteRemoveUser,
+  getRoles,
+  putUserRole,
 } from "network/home";
 export default {
   name: "Users",
@@ -185,6 +220,10 @@ export default {
         mobile: "",
       },
       editForm: {},
+      roleDialogVisible: false,
+      userInfo: {},
+      roleList: [],
+      selectRoleId: "",
     };
   },
   created() {
@@ -325,11 +364,12 @@ export default {
     removeUser(id) {
       let _this = this;
       //弹窗询问是否删除用户数据
-      _this.$confirm("此操作将永久删除该用户, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
+      _this
+        .$confirm("此操作将永久删除该用户, 是否继续?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        })
         .then(() => {
           deleteRemoveUser(id).then((res) => {
             console.log(res);
@@ -350,6 +390,53 @@ export default {
             message: "已取消删除",
           });
         });
+    },
+    //分配角色
+    setRole(role) {
+      let _this = this;
+      console.log(role);
+      _this.userInfo = role;
+      getRoles().then((res) => {
+        console.log("roleslist", res);
+        if (res.meta.status !== 200) {
+          _this.$message({
+            message: res.meta.msg,
+            center: true,
+            type: "error",
+          });
+        } else {
+          _this.roleList = res.data;
+        }
+      });
+      _this.roleDialogVisible = true;
+    },
+    //点击提交分配角色
+    saveRoleInfo() {
+      let _this = this;
+      putUserRole(_this.userInfo.id, _this.selectRoleId).then((res) => {
+        console.log(res);
+        if (res.meta.status !== 200) {
+          _this.$message({
+            message: res.meta.msg,
+            center: true,
+            type: "error",
+          });
+        } else {
+          _this.$message({
+            message: res.meta.msg,
+            center: true,
+            type: "success",
+          });
+          _this.getUserList();
+          _this.roleDialogVisible = false;
+        }
+      });
+    },
+    //监听分配角色对话框关闭事件
+    setRoleDialogColsed() {
+      let _this = this;
+      _this.selectRoleId = "";
+      _this.userInfo = {};
     },
   },
 };
