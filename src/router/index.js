@@ -13,6 +13,23 @@ const Rights = () =>
     import ('../components/power/Rights')
 const Roles = () =>
     import ('../components/power/Roles')
+const Goods = () =>
+    import ('../components/goods/Goods')
+const Params = () =>
+    import ('../components/goods/Params')
+const Categories = () =>
+    import ('../components/goods/Categories')
+const Orders = () =>
+    import ('../components/orders/Orders')
+const Reports = () =>
+    import ('../components/reports/Reports')
+
+// 修改路由push方法,阻止重复点击报错
+const originalReplace = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+    return originalReplace.call(this, location).catch(err => err)
+}
+
 
 Vue.use(VueRouter)
 
@@ -43,6 +60,26 @@ const routes = [{
             {
                 path: '/roles',
                 component: Roles
+            },
+            {
+                path: '/goods',
+                component: Goods
+            },
+            {
+                path: '/params',
+                component: Params
+            },
+            {
+                path: '/categories',
+                component: Categories
+            },
+            {
+                path: '/orders',
+                component: Orders
+            },
+            {
+                path: '/reports',
+                component: Reports
             }
         ]
     }

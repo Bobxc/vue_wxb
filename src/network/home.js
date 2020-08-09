@@ -108,3 +108,30 @@ export function putUserRole(id, rid) {
         }
     })
 }
+//添加角色
+export function postAddRole(data) {
+    return request({
+        url: '/roles',
+        method: 'post',
+        data: data
+    })
+}
+//编辑提交角色
+export function putEditRole(id, data) {
+
+    return request({
+        url: `roles/${id}`,
+        method: 'put',
+        data: data
+    })
+}
+//删除角色
+export function deleteRole(id) {
+    return request({
+        url: `/roles/${id}`,
+        method: 'delete',
+        data: {
+            id: id
+        }
+    })
+}

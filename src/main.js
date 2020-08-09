@@ -17,6 +17,21 @@ import 'element-ui/lib/theme-chalk/index.css'
 // })
 // Vue.prototype.$http = axios
 
+//时间过滤器
+Vue.filter('dateFormat', (originVal) => {
+    const dt = new Date(originVal);
+
+    const y = dt.getFullYear();
+    const m = (dt.getMonth() + 1 + '').padStart(2, '0');
+    const d = (dt.getDate() + '').padStart(2, '0');
+
+    const hh = (dt.getHours() + '').padStart(2, '0');
+    const mm = (dt.getMinutes() + '').padStart(2, '0');
+    const ss = (dt.getSeconds() + '').padStart(2, '0');
+
+    return `${y}-${m}-${d} ${hh}:${mm}:${ss}`;
+})
+
 
 Vue.use(ElementUI)
 Vue.config.productionTip = false
