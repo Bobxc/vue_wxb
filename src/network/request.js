@@ -1,4 +1,6 @@
 import axios from 'axios'
+import Nprogress from 'nprogress'
+import 'nprogress/nprogress.css'
 
 export function request(config) {
     // 1.创建axios实例
@@ -9,6 +11,7 @@ export function request(config) {
         // 2.axios拦截器
         // 2.1请求拦截的作用
     instance.interceptors.request.use(config => {
+            Nprogress.start();
             //为请求头对象，添加Token验证的Authorization字段
             config.headers.Authorization = window.sessionStorage.getItem('token');
             return config
@@ -17,6 +20,7 @@ export function request(config) {
         })
         // 2.1相应拦截
     instance.interceptors.response.use(res => {
+            Nprogress.done();
             return res.data
         }, err => {
             console.log(err);

@@ -16,3 +16,11 @@ export function getCategories(data) {
         params: data
     })
 }
+//添加分类
+export function postCategories(data) {
+    return request({
+        url: '/categories',
+        method: 'post',
+        data: data
+    })
+}
