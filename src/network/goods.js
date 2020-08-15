@@ -24,3 +24,19 @@ export function postCategories(data) {
         data: data
     })
 }
+//编辑提交分类
+export function putEditCategories(data) {
+    return request({
+        url: `/categories/${data.id}`,
+        method: 'put',
+        data: data
+    })
+}
+//删除分类
+export function deleteCategories(id) {
+    return request({
+        url: `/categories/${id}`,
+        method: 'delete',
+        data: id
+    })
+}

@@ -412,6 +412,7 @@ export default {
                 type: "error",
               });
             }
+            _this.deleteLastData();
             _this.rolesList();
           });
         })
@@ -422,6 +423,18 @@ export default {
             center: true,
           });
         });
+    },
+    //删除最后一页最后一条数据显示bug问题
+    deleteLastData() {
+      let _this = this;
+      const totalPage = Math.ceil(
+        (_this.categoriesInfo.total - 1) / _this.categoriesInfo.pageSize
+      );
+      const pagenum =
+        _this.categoriesInfo.pageNum > totalPage
+          ? totalPage
+          : _this.categoriesInfo.pageNum;
+      _this.categoriesInfo.pageNum = pagenum < 1 ? 1 : pagenum;
     },
   },
 };
